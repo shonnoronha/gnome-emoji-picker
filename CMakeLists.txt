@@ -14,6 +14,7 @@ find_package(nlohmann_json REQUIRED)
 set(SRC_FILES
     src/main.cpp
     src/emoji_picker.cpp
+    src/emoji_picker_app.cpp
     src/emoji_loader.cpp
 )
 

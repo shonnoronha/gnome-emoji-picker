@@ -40,33 +40,13 @@ EmojiPicker::EmojiPicker() {
     m_scrolled_window.add(m_flow_box);
     m_main_box.pack_start(m_scrolled_window, true, true);
     show_all();
-
-    keybinder_init();
-    keybinder_bind("<Super>period", &EmojiPicker::hotkey_handler, this);
 }
 
-EmojiPicker::~EmojiPicker() {
-    keybinder_unbind("<Super>period", &EmojiPicker::hotkey_handler);
-}
-
-void EmojiPicker::toggle_window() {
-    if (is_visible()) {
-        hide();
-    } else {
-        show();
-        present();
-    }
-}
-
+EmojiPicker::~EmojiPicker() {}
 
 bool EmojiPicker::on_delete_event(GdkEventAny *event) {
     hide();
     return true;
-}
-
-void EmojiPicker::hotkey_handler(const char *keystring, void *user_data) {
-    auto *picker = static_cast<EmojiPicker *>(user_data);
-    picker->toggle_window();
 }
 
 void EmojiPicker::insert_to_active_window(const std::string &text) {

@@ -21,7 +21,6 @@ class EmojiPicker : public Gtk::Window {
     void load_emojis();
     void on_emoji_selected(Gtk::FlowBoxChild *child);
     static void hotkey_handler(const char *keystring, void *user_data);
-    void toggle_window();
     void insert_to_active_window(const std::string &text);
 };
 
