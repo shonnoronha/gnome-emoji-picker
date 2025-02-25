@@ -21,8 +21,8 @@ EmojiPicker::EmojiPicker() {
     m_main_box.set_border_width(10);
     add(m_main_box);
 
-    m_scrolled_window.set_policy(Gtk::POLICY_NEVER, Gtk::POLICY_AUTOMATIC);
     m_scrolled_window.set_propagate_natural_height(true);
+    m_scrolled_window.set_policy(Gtk::POLICY_NEVER, Gtk::POLICY_AUTOMATIC);
     m_scrolled_window.set_min_content_height(200);
 
     m_flow_box.set_valign(Gtk::ALIGN_START);
@@ -58,6 +58,12 @@ void EmojiPicker::toggle_window() {
     }
 }
 
+
+bool EmojiPicker::on_delete_event(GdkEventAny *event) {
+    hide();
+    return true;
+}
+
 void EmojiPicker::hotkey_handler(const char *keystring, void *user_data) {
     auto *picker = static_cast<EmojiPicker *>(user_data);
     picker->toggle_window();
@@ -84,7 +90,7 @@ void EmojiPicker::insert_to_active_window(const std::string &text) {
 
 void EmojiPicker::load_emojis() {
     std::vector<std::string> emojis =
-        load_emojis_from_file("assets/emojis.json");
+        load_emojis_from_file(get_emoji_file_path());
     for (const auto &emoji : emojis) {
         auto button = Gtk::manage(new Gtk::Button(emoji));
         button->set_relief(Gtk::RELIEF_NONE);

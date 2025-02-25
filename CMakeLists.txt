@@ -5,18 +5,30 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 find_package(PkgConfig REQUIRED)
-find_package(nlohmann_json REQUIRED)
 pkg_check_modules(GTKMM REQUIRED gtkmm-3.0)
 pkg_check_modules(KEYBINDER REQUIRED keybinder-3.0)
 pkg_check_modules(X11 REQUIRED x11)
 pkg_check_modules(XTST REQUIRED xtst)
-
+find_package(nlohmann_json REQUIRED)
 
 set(SRC_FILES
     src/main.cpp
     src/emoji_picker.cpp
     src/emoji_loader.cpp
 )
+
+set(EMOJI_DATA_DIR "share/emoji-picker")
+
+file(WRITE "${CMAKE_BINARY_DIR}/emoji-picker.desktop"
+"[Desktop Entry]
+Type=Application
+Name=Emoji Picker
+Comment=Quick emoji picker
+Exec=${CMAKE_INSTALL_PREFIX}/bin/emoji_picker
+Icon=emoji
+Categories=Utility;
+X-GNOME-Autostart-enabled=true
+")
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/include
@@ -53,9 +65,17 @@ target_compile_options(emoji_picker PRIVATE
 )
 
 install(TARGETS emoji_picker DESTINATION bin)
-install(FILES assets/emojis.json DESTINATION bin/assets)
+install(FILES "${CMAKE_SOURCE_DIR}/assets/emojis.json" 
+        DESTINATION ${EMOJI_DATA_DIR})
+install(FILES "${CMAKE_BINARY_DIR}/emoji-picker.desktop"
+        DESTINATION "share/applications")
+
+install(CODE "
+    execute_process(
+        COMMAND mkdir -p \$ENV{HOME}/.config/autostart
+        COMMAND ln -sf ${CMAKE_INSTALL_PREFIX}/share/applications/emoji-picker.desktop \$ENV{HOME}/.config/autostart/
+    )
+")
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-
 file(WRITE ${CMAKE_BINARY_DIR}/compile_flags.txt "-std=c++17\n")
-

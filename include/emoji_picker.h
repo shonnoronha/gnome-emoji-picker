@@ -5,9 +5,13 @@
 #include <keybinder-3.0/keybinder.h>
 
 class EmojiPicker : public Gtk::Window {
+
   public:
     EmojiPicker();
     virtual ~EmojiPicker();
+
+  protected:
+    bool on_delete_event(GdkEventAny *event) override;
 
   private:
     Gtk::Box m_main_box;

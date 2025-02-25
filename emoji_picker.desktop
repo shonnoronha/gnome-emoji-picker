@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Emoji Picker
+Comment=Quick emoji picker
+Exec=emoji_picker
+Icon=emoji
+Categories=Utility;
+X-GNOME-Autostart-enabled=true

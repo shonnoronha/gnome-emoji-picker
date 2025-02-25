@@ -1,4 +1,6 @@
 #include "emoji_loader.h"
+#include <cstdlib>
+#include <filesystem>
 #include <nlohmann/json.hpp>
 #include <fstream>
 #include <iostream>
@@ -23,3 +25,19 @@ std::vector<std::string> load_emojis_from_file(const std::string& filename) {
     return emojis;
 }
 
+
+std::string get_emoji_file_path() {
+    const char* xdg_data_home = getenv("XDG_DATA_HOME");
+    std::vector<std::string> search_paths = {
+        "assets/emojis.json",
+        "/usr/local/share/emoji-picker/emojis.json"
+    };
+
+    for (const auto& path : search_paths) {
+        if (std::filesystem::exists(path)) {
+            return path;
+        }
+    }
+
+    throw std::runtime_error("Could not find emojis.json");
+}
