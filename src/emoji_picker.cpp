@@ -49,22 +49,9 @@ bool EmojiPicker::on_delete_event(GdkEventAny *event) {
     return true;
 }
 
-void EmojiPicker::insert_to_active_window(const std::string &text) {
-    Display *display = XOpenDisplay(nullptr);
-    if (!display)
-        return;
-
+void EmojiPicker::copy_emoji_to_clipboard(const std::string &text) {
     auto clipboard = Gtk::Clipboard::get();
     clipboard->set_text(text);
-
-    XTestFakeKeyEvent(display, XKeysymToKeycode(display, XK_Control_L), True,
-                      0);
-    XTestFakeKeyEvent(display, XKeysymToKeycode(display, XK_v), True, 0);
-    XTestFakeKeyEvent(display, XKeysymToKeycode(display, XK_v), False, 0);
-    XTestFakeKeyEvent(display, XKeysymToKeycode(display, XK_Control_L), False,
-                      0);
-
-    XCloseDisplay(display);
     hide();
 }
 
@@ -100,7 +87,7 @@ void EmojiPicker::on_emoji_selected(Gtk::FlowBoxChild *child) {
 
     std::string emoji = button->get_label();
 
-    insert_to_active_window(emoji);
+    copy_emoji_to_clipboard(emoji);
 
     button->grab_focus();
 }
