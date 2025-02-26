@@ -1,5 +1,4 @@
 build/
 compile_commands.json
 compile_flags.txt
-assets/
 .cache/
