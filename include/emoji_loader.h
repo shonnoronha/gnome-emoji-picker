@@ -4,6 +4,14 @@
 #include <string>
 #include <vector>
 
-std::vector<std::string> load_emojis_from_file(const std::string &filename);
+struct EmojiData {
+    std::string emoji;
+    std::string name;
+    std::string category;
+    std::string subcategory;
+    std::vector<std::string> codes;
+};
+
+std::vector<EmojiData> load_emojis_from_file(const std::string &filename);
 std::string get_emoji_file_path();
 #endif

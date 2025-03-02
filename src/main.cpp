@@ -3,8 +3,7 @@
 
 int main(int argc, char *argv[]) {
     auto app = Gtk::Application::create(argc, argv, "org.gtkmm.emoji_picker");
-    EmojiPickerApp emojiPickerApp;
-    /*emojiPickerApp.toggle_window();*/
+    /*EmojiPickerApp emojiPickerApp;*/
     app->hold();
     app->run();
     return 0;
